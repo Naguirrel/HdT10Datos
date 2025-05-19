@@ -1,3 +1,4 @@
+package ProgramaJava;
 /**
  * Provee el método para encontrar el centro del grafo.
  */

@@ -1,3 +1,4 @@
+package ProgramaJava;
 /**
  * Representa un nodo del grafo, correspondiente a una ciudad.
  */
