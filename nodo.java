@@ -1,10 +1,21 @@
+/**
+ * Representa un nodo del grafo, correspondiente a una ciudad.
+ */
 public class Nodo {
     private String nombre;
 
+    /**
+     * Crea un nodo con el nombre especificado.
+     * @param nombre nombre de la ciudad.
+     */
     public Nodo(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     * Obtiene el nombre del nodo (ciudad).
+     * @return nombre de la ciudad.
+     */
     public String getNombre() {
         return nombre;
     }
