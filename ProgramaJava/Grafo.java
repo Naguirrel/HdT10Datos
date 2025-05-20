@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Representa un grafo dirigido usando matriz de adyacencia.
+ * Grafo dirigido usando matriz de adyacencia cargado desde CSV.
  */
 public class Grafo {
     private List<Nodo> nodos;
@@ -16,26 +16,43 @@ public class Grafo {
     }
 
     /**
-     * Carga conexiones desde un archivo .txt
-     * @param nombreArchivo nombre del archivo
-     * @throws IOException si ocurre error de lectura
+     * Carga conexiones desde archivo CSV según el tipo de clima.
+     * @param archivo nombre del archivo CSV
+     * @param clima tipo de clima: Normal, Lluvia, Nieve o Tormenta
+     * @throws IOException si no se puede leer
      */
-    public void cargarDesdeArchivo(String nombreArchivo) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(nombreArchivo));
+    public void cargarDesdeCSV(String archivo, String clima) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(archivo));
+        String header = br.readLine(); // leer encabezado
+        String[] columnas = header.split(",");
+        int indiceClima = -1;
+
+        for (int i = 2; i < columnas.length; i++) {
+            if (columnas[i].equalsIgnoreCase(clima)) {
+                indiceClima = i;
+                break;
+            }
+        }
+
+        if (indiceClima == -1) {
+            br.close();
+            throw new IllegalArgumentException("Clima no válido: " + clima);
+        }
+
         String linea;
         while ((linea = br.readLine()) != null) {
-            String[] partes = linea.trim().split("\\s+");
-            if (partes.length >= 3) {
+            String[] partes = linea.split(",");
+            if (partes.length > indiceClima) {
                 String origen = partes[0];
                 String destino = partes[1];
-                double tiempoNormal = Double.parseDouble(partes[2]);
-                agregarConexion(origen, destino, tiempoNormal);
+                double peso = Double.parseDouble(partes[indiceClima]);
+                agregarConexion(origen, destino, peso);
             }
         }
         br.close();
     }
 
-    public void agregarConexion(String origen, String destino, double tiempoNormal) {
+    public void agregarConexion(String origen, String destino, double peso) {
         Nodo nodoOrigen = new Nodo(origen);
         Nodo nodoDestino = new Nodo(destino);
 
@@ -44,8 +61,7 @@ public class Grafo {
 
         int i = nodos.indexOf(nodoOrigen);
         int j = nodos.indexOf(nodoDestino);
-
-        matrizAdyacencia[i][j] = tiempoNormal;
+        matrizAdyacencia[i][j] = peso;
     }
 
     public void eliminarConexion(String origen, String destino) {
