@@ -1,14 +1,9 @@
 package ProgramaJava;
 /**
- * Provee el método para encontrar el centro del grafo.
+ * Encuentra el centro del grafo basado en la matriz de distancias.
  */
 public class CentroGrafo {
 
-    /**
-     * Calcula el índice del nodo más cercano a todos los demás (centro).
-     * @param dist matriz de distancias mínimas.
-     * @return índice del nodo que es centro.
-     */
     public static int calcularCentro(double[][] dist) {
         int n = dist.length;
         double[] maximos = new double[n];

@@ -1,14 +1,21 @@
 package ProgramaJava;
+import java.io.*;
 import java.util.*;
 
+/**
+ * Clase principal con menú interactivo.
+ */
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Grafo grafo = new Grafo();
 
-        grafo.agregarConexion("BuenosAires", "SaoPaulo", 10);
-        grafo.agregarConexion("BuenosAires", "Lima", 15);
-        grafo.agregarConexion("Lima", "Quito", 10);
+        try {
+            grafo.cargarDesdeArchivo("rutas1.txt");
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo: " + e.getMessage());
+            return;
+        }
 
         FloydWarshall floyd = new FloydWarshall(grafo);
 
@@ -18,8 +25,10 @@ public class Main {
             System.out.println("3. Interrumpir conexión");
             System.out.println("4. Agregar conexión");
             System.out.println("5. Salir");
+            System.out.print("Seleccione una opción: ");
             int op = sc.nextInt();
             sc.nextLine();
+
             if (op == 1) {
                 System.out.print("Ciudad origen: ");
                 String origen = sc.nextLine();
@@ -40,13 +49,16 @@ public class Main {
                 } else {
                     System.out.println("Ruta más corta: " + floyd.getDistancias()[i][j]);
                     for (int idx : ruta) {
-                        System.out.print(grafo.getNodos().get(idx).getNombre() + " ");
+                        System.out.print(grafo.getNodos().get(idx).getNombre());
+                        if (idx != ruta.get(ruta.size() - 1)) System.out.print(" -> ");
                     }
                     System.out.println();
                 }
+
             } else if (op == 2) {
                 int centro = CentroGrafo.calcularCentro(floyd.getDistancias());
                 System.out.println("Centro del grafo: " + grafo.getNodos().get(centro).getNombre());
+
             } else if (op == 3) {
                 System.out.print("Ciudad origen: ");
                 String origen = sc.nextLine();
@@ -54,6 +66,7 @@ public class Main {
                 String destino = sc.nextLine();
                 grafo.eliminarConexion(origen, destino);
                 floyd = new FloydWarshall(grafo);
+
             } else if (op == 4) {
                 System.out.print("Ciudad origen: ");
                 String origen = sc.nextLine();
@@ -64,9 +77,12 @@ public class Main {
                 sc.nextLine();
                 grafo.agregarConexion(origen, destino, tiempo);
                 floyd = new FloydWarshall(grafo);
+
             } else if (op == 5) {
                 break;
             }
         }
+
+        sc.close();
     }
 }

@@ -1,0 +1,12 @@
+Guatemala SanSalvador 4 6 8 12
+Guatemala Tegucigalpa 7 10 14 20
+SanSalvador Managua 6 9 13 18
+Tegucigalpa Managua 5 8 11 16
+Managua SanJose 8 11 15 22
+SanJose Panama 10 14 18 25
+Panama Bogota 12 16 20 30
+Bogota Quito 6 9 12 18
+Quito Lima 9 13 17 24
+Lima LaPaz 7 10 14 21
+LaPaz Santiago 10 15 20 28
+Santiago BuenosAires 8 12 16 22
